@@ -10,7 +10,7 @@ ERA=Run2_2018
 EVENTS=$2
 N_THREADS=6
 SEED=$1
-OUT=output
+OUT="/afs/cern.ch/work/a/amascell/HNLanalysis/signal_samples/2018_ULpilot"
 CFG=cfg
 PU="dbs:/Neutrino_E-10_gun/RunIISummer17PrePremix-PUAutumn18_102X_upgrade2018_realistic_v15-v1/GEN-SIM-DIGI-RAW"
 
@@ -24,7 +24,9 @@ mkdir -p "$OUT/interm_steps"
 FRAGMENT=Configuration/GenProduction/python/HeavyNeutrino_trilepton_M-${MASS}_${FLAV}-fragment.py
 if ! [ -f $FRAGMENT ]; then
     echo "Fragment $FRAGMENT not found. Creating it..."
-    GRIDPACK="$(ls /cvmfs/cms.cern.ch/phys_generator/gridpacks/slc6_amd64_gcc481/13TeV/madgraph/V5_2.4.2/exo_heavyNeutrino/displaced_2017/v1/HeavyNeutrino_trilepton_M-${MASS}_V-*_${FLAV}_massiveAndCKM_LO_slc6_amd64_gcc481_CMSSW_7_1_30_tarball.tar.xz)"
+    # GRIDPACK="$(ls /cvmfs/cms.cern.ch/phys_generator/gridpacks/slc6_amd64_gcc481/13TeV/madgraph/V5_2.4.2/exo_heavyNeutrino/displaced_2017/v1/HeavyNeutrino_trilepton_M-${MASS}_V-*_${FLAV}_massiveAndCKM_LO_slc6_amd64_gcc481_CMSSW_7_1_30_tarball.tar.xz)"
+        GRIDPACK="$(ls /afs/cern.ch/work/a/amascell/HNLanalysis/CMSSW_10_6_21/src/genproductions/bin/MadGraph5_aMCatNLO/HeavyNeutrino_trilepton_M-${MASS}_V-*_${FLAV}_massiveAndCKM_LO_slc7_amd64_gcc700_CMSSW_10_6_19_tarball.tar.xz)"
+
     N_GRIDPACK=$(echo "$GRIDPACK" | wc -l)
     if [ $N_GRIDPACK -ne 1 ]; then
         echo "Multiple gridpacks were found."
@@ -107,26 +109,26 @@ else
     run_cmd cmsRun $CFG/${NAME}_SIM_cfg.py
 fi
 
-if [ -f $OUT/interm_steps/${NAME}_PREMIX.root ]; then
-    echo "$OUT/interm_steps/${NAME}_PREMIX.root already exists. Continuing to the next step."
-else
-    CURRENT_OUTPUT=$OUT//interm_steps/${NAME}_PREMIX.root
-    run_cmd cmsDriver.py --python_filename $CFG/${NAME}_PREMIX_cfg.py --eventcontent PREMIXRAW \
-        --customise Configuration/DataProcessing/Utils.addMonitoring --datatier GEN-SIM-RAW \
-        --fileout file:$OUT/interm_steps/${NAME}_PREMIX.root --pileup_input $PU --conditions $COND \
-        --step DIGI,DATAMIX,L1,DIGI2RAW,HLT:@relval2018 --procModifiers premix_stage2 --geometry $GEOM \
-        --filein file:$OUT/interm_steps/${NAME}_SIM.root --datamix PreMix --era $ERA --no_exec --mc \
-        --nThreads $N_THREADS -n $EVENTS
+# if [ -f $OUT/interm_steps/${NAME}_PREMIX.root ]; then
+#     echo "$OUT/interm_steps/${NAME}_PREMIX.root already exists. Continuing to the next step."
+# else
+#     CURRENT_OUTPUT=$OUT//interm_steps/${NAME}_PREMIX.root
+#     run_cmd cmsDriver.py --python_filename $CFG/${NAME}_PREMIX_cfg.py --eventcontent PREMIXRAW \
+#         --customise Configuration/DataProcessing/Utils.addMonitoring --datatier GEN-SIM-RAW \
+#         --fileout file:$OUT/interm_steps/${NAME}_PREMIX.root --pileup_input $PU --conditions $COND \
+#         --step DIGI,DATAMIX,L1,DIGI2RAW,HLT:@relval2018 --procModifiers premix_stage2 --geometry $GEOM \
+#         --filein file:$OUT/interm_steps/${NAME}_SIM.root --datamix PreMix --era $ERA --no_exec --mc \
+#         --nThreads $N_THREADS -n $EVENTS
 
-    run_cmd cmsRun $CFG/${NAME}_PREMIX_cfg.py
-fi
+#     run_cmd cmsRun $CFG/${NAME}_PREMIX_cfg.py
+# fi
 
-CURRENT_OUTPUT=$OUT/HeavyNeutrino_trilepton_M-${MASS}_${FLAV}/${NAME}.root
-run_cmd cmsDriver.py --python_filename $CFG/${NAME}_RECO_cfg.py --eventcontent FEVTDEBUGHLT \
-    --customise Configuration/DataProcessing/Utils.addMonitoring --datatier RECOSIM \
-    --fileout file:$OUT/HeavyNeutrino_trilepton_M-${MASS}_${FLAV}/$NAME.root --conditions $COND \
-    --step RAW2DIGI,L1Reco,RECO,RECOSIM,EI --procModifiers premix_stage2 \
-    --filein file:$OUT/interm_steps/${NAME}_PREMIX.root --era $ERA --runUnscheduled \
-    --no_exec --mc --nThreads $N_THREADS -n $EVENTS
+# CURRENT_OUTPUT=$OUT/HeavyNeutrino_trilepton_M-${MASS}_${FLAV}/${NAME}.root
+# run_cmd cmsDriver.py --python_filename $CFG/${NAME}_RECO_cfg.py --eventcontent FEVTDEBUGHLT \
+#     --customise Configuration/DataProcessing/Utils.addMonitoring --datatier RECOSIM \
+#     --fileout file:$OUT/HeavyNeutrino_trilepton_M-${MASS}_${FLAV}/$NAME.root --conditions $COND \
+#     --step RAW2DIGI,L1Reco,RECO,RECOSIM,EI --procModifiers premix_stage2 \
+#     --filein file:$OUT/interm_steps/${NAME}_PREMIX.root --era $ERA --runUnscheduled \
+#     --no_exec --mc --nThreads $N_THREADS -n $EVENTS
 
-run_cmd cmsRun $CFG/${NAME}_RECO_cfg.py
+# run_cmd cmsRun $CFG/${NAME}_RECO_cfg.py
