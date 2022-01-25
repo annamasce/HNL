@@ -3,7 +3,7 @@
 FLAV=mu
 MASS=4
 #FRAGMENT=Configuration/GenProduction/python/EXO-RunIIFall18wmLHEGS-00886-fragment.py
-COND=102X_upgrade2018_realistic_v15
+COND=106X_upgrade2018_realistic_v4
 BS=Realistic25ns13TeVEarly2018Collision
 GEOM=DB:Extended
 ERA=Run2_2018
@@ -22,22 +22,23 @@ mkdir -p "$OUT/HeavyNeutrino_trilepton_M-${MASS}_${FLAV}"
 mkdir -p "$OUT/interm_steps"
 
 FRAGMENT=Configuration/GenProduction/python/HeavyNeutrino_trilepton_M-${MASS}_${FLAV}-fragment.py
-if ! [ -f $FRAGMENT ]; then
-    echo "Fragment $FRAGMENT not found. Creating it..."
-    # GRIDPACK="$(ls /cvmfs/cms.cern.ch/phys_generator/gridpacks/slc6_amd64_gcc481/13TeV/madgraph/V5_2.4.2/exo_heavyNeutrino/displaced_2017/v1/HeavyNeutrino_trilepton_M-${MASS}_V-*_${FLAV}_massiveAndCKM_LO_slc6_amd64_gcc481_CMSSW_7_1_30_tarball.tar.xz)"
-        GRIDPACK="$(ls /afs/cern.ch/work/a/amascell/HNLanalysis/CMSSW_10_6_21/src/genproductions/bin/MadGraph5_aMCatNLO/HeavyNeutrino_trilepton_M-${MASS}_V-*_${FLAV}_massiveAndCKM_LO_slc7_amd64_gcc700_CMSSW_10_6_19_tarball.tar.xz)"
+# if ! [ -f $FRAGMENT ]; then
+echo "Creating fragment $FRAGMENT ..."
+# GRIDPACK="$(ls /cvmfs/cms.cern.ch/phys_generator/gridpacks/slc6_amd64_gcc481/13TeV/madgraph/V5_2.4.2/exo_heavyNeutrino/displaced_2017/v1/HeavyNeutrino_trilepton_M-${MASS}_V-*_${FLAV}_massiveAndCKM_LO_slc6_amd64_gcc481_CMSSW_7_1_30_tarball.tar.xz)"
+# GRIDPACK="$(ls /afs/cern.ch/work/a/amascell/HNLanalysis/CMSSW_10_6_21/src/genproductions/bin/MadGraph5_aMCatNLO/HeavyNeutrino_trilepton_M-${MASS}_V-*_${FLAV}_massiveAndCKM_LO_slc7_amd64_gcc700_CMSSW_10_6_19_tarball.tar.xz)"
+GRIDPACK="$(ls /afs/cern.ch/work/a/amascell/HNLanalysis/genproductions/bin/MadGraph5_aMCatNLO/HeavyNeutrino_trilepton_M-4_V-0.117898261226_mu_massiveAndCKM_LO_slc7_amd64_gcc700_CMSSW_10_6_19_tarball.tar.xz)"
 
-    N_GRIDPACK=$(echo "$GRIDPACK" | wc -l)
-    if [ $N_GRIDPACK -ne 1 ]; then
-        echo "Multiple gridpacks were found."
-        exit 1
-    fi
-    if ! [ -f $GRIDPACK ]; then
-        echo "Grid pack not found."
-        exit 1
-    fi
-    mkdir -p Configuration/GenProduction/python/
-    cat <<EOF > $FRAGMENT
+N_GRIDPACK=$(echo "$GRIDPACK" | wc -l)
+if [ $N_GRIDPACK -ne 1 ]; then
+    echo "Multiple gridpacks were found."
+    exit 1
+fi
+if ! [ -f $GRIDPACK ]; then
+    echo "Grid pack not found."
+    exit 1
+fi
+mkdir -p Configuration/GenProduction/python/
+cat <<EOF > $FRAGMENT
 import FWCore.ParameterSet.Config as cms
 
 externalLHEProducer = cms.EDProducer("ExternalLHEProducer",
@@ -65,15 +66,17 @@ generator = cms.EDFilter("Pythia8HadronizerFilter",
         pythia8CommonSettingsBlock,
         pythia8CP5SettingsBlock,
         pythia8PSweightsSettingsBlock,
+        processParameters = cms.vstring('LesHouches:setLifetime = 2'),
         parameterSets = cms.vstring('pythia8CommonSettings',
                                     'pythia8CP5Settings',
                                     'pythia8PSweightsSettings',
+                                    'processParameters'
                                     )
     )
 )
 EOF
     scram b
-fi
+# fi
 
 CURRENT_OUTPUT=None
 
@@ -106,7 +109,7 @@ else
         --customise_commands process.RandomNumberGeneratorService.externalLHEProducer.initialSeed="int(${SEED})" \
         --step LHE,GEN,SIM --geometry $GEOM --era $ERA --no_exec --mc --nThreads $N_THREADS -n $EVENTS
 
-    run_cmd cmsRun $CFG/${NAME}_SIM_cfg.py
+    # run_cmd cmsRun $CFG/${NAME}_SIM_cfg.py
 fi
 
 # if [ -f $OUT/interm_steps/${NAME}_PREMIX.root ]; then
