@@ -5,7 +5,7 @@ from HNL.NanoProd.common_cff import ufloat, uint, ubool
 selectedDSAMuons = cms.EDFilter(
     'TrackSelector',
     src = cms.InputTag('displacedStandAloneMuons'),
-    cut = cms.string('pt > 5. && abs(eta) < 2.4 && numberOfValidHits > 15 && ptError/pt < 1. && chi2/ndof < 2.5')
+    cut = cms.string('pt > 3. && abs(eta) < 2.4 && numberOfValidHits > 15 && ptError/pt < 1. && chi2/ndof < 2.5')
 )
 
 vetoMuons = cms.EDFilter(
@@ -50,8 +50,8 @@ diSTA = cms.EDProducer(
     'DiMuonBuilder',
     src = cms.InputTag('finalMuons'),
     srcVeto = cms.InputTag('vetoMuons'),
-    lep1Selection = cms.string('pt > 5. && isStandAloneMuon && abs(eta) < 2.4 && numberOfValidHits > 12 && bestTrack.ptError/pt < 1. && bestTrack.chi2/bestTrack.ndof < 2.5'),
-    lep2Selection = cms.string('pt > 5. && isStandAloneMuon && abs(eta) < 2.4 && numberOfValidHits > 12 && bestTrack.ptError/pt < 1. && bestTrack.chi2/bestTrack.ndof < 2.5'),
+    lep1Selection = cms.string('pt > 3. && isStandAloneMuon && abs(eta) < 2.4 && numberOfValidHits > 12 && bestTrack.ptError/pt < 1. && bestTrack.chi2/bestTrack.ndof < 2.5'),
+    lep2Selection = cms.string('pt > 3. && isStandAloneMuon && abs(eta) < 2.4 && numberOfValidHits > 12 && bestTrack.ptError/pt < 1. && bestTrack.chi2/bestTrack.ndof < 2.5'),
     preVtxSelection = cms.string('1'),
     postVtxSelection = cms.string('userFloat("sv_ndof") > 0')
 )
@@ -60,7 +60,7 @@ patSTA = cms.EDProducer(
     'DiMuonBuilder',
     src = cms.InputTag('finalMuons'),
     srcVeto = cms.InputTag('vetoMuons'),
-    lep1Selection = cms.string('pt > 5. && isStandAloneMuon && abs(eta) < 2.4 && numberOfValidHits > 12 && bestTrack.ptError/pt < 1. && bestTrack.chi2/bestTrack.ndof < 2.5'),
+    lep1Selection = cms.string('pt > 3. && isStandAloneMuon && abs(eta) < 2.4 && numberOfValidHits > 12 && bestTrack.ptError/pt < 1. && bestTrack.chi2/bestTrack.ndof < 2.5'),
     lep2Selection = cms.string('pt > 3. && isGlobalMuon && dB > 0.01 && isLooseMuon && abs(eta) < 2.4 && segmentCompatibility > 0.451 && combinedQuality().trkKink < 20'),
     preVtxSelection = cms.string('1'),
     postVtxSelection = cms.string('userFloat("sv_ndof") > 0')

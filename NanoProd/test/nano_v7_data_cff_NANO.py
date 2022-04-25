@@ -30,6 +30,7 @@ process.maxEvents = cms.untracked.PSet(
 process.source = cms.Source("PoolSource",
     # fileNames = cms.untracked.vstring('/store/data/Run2018A/SingleMuon/MINIAOD/17Sep2018-v2/90000/6FEE6A9B-E03C-A14F-AD01-914C76D0A721.root'),
     fileNames = cms.untracked.vstring('/store/data/Run2018D/SingleMuon/MINIAOD/PromptReco-v2/000/320/500/00000/12C8CC7E-8C95-E811-BDA3-FA163EA1F576.root'),
+    # fileNames = cms.untracked.vstring('/store/data/Run2018B/SingleMuon/MINIAOD/PromptReco-v2/000/318/872/00000/64C0ABF9-F17C-E811-A50F-FA163EA0C012.root'),
     secondaryFileNames = cms.untracked.vstring()
 )
 
