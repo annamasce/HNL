@@ -5,3 +5,6 @@ __init__.py
 #*#
 grid-control*
 *~
+*crab_projects/
+*crab.log
+*.root

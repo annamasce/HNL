@@ -1,0 +1,7 @@
+lumiMask=/afs/cern.ch/work/a/amascell/HNLanalysis/CMSSW_10_6_29/src/HNL/NanoProd/crab/crab_projects/crab_220404_ULproduction_SingleMuon_Run2018C-UL2018_MiniAODv2-v3_goldenMask/results/notFinishedLumis.json
+""
+
+# 220404_ULproduction_SingleMuon_Run2018A-UL2018_MiniAODv2-v3_goldenMask /SingleMuon/Run2018A-UL2018_MiniAODv2-v3/MINIAOD
+# 220404_ULproduction_SingleMuon_Run2018B-UL2018_MiniAODv2-v3_goldenMask /SingleMuon/Run2018B-UL2018_MiniAODv2-v2/MINIAOD
+220404_ULproduction_SingleMuon_Run2018C-UL2018_MiniAODv2-v3_goldenMask_recovery /SingleMuon/Run2018C-UL2018_MiniAODv2-v2/MINIAOD
+# 220404_ULproduction_SingleMuon_Run2018D-UL2018_MiniAODv2-v3_goldenMask /SingleMuon/Run2018D-UL2018_MiniAODv2-v3/MINIAOD

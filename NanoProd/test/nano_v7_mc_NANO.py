@@ -7,7 +7,8 @@ import FWCore.ParameterSet.Config as cms
 
 from Configuration.StandardSequences.Eras import eras
 
-process = cms.Process('NANO',eras.Run2_2018,eras.run2_nanoAOD_106Xv1)
+# process = cms.Process('NANO',eras.Run2_2018,eras.run2_nanoAOD_106Xv1)
+process = cms.Process('NANO',eras.Run2_2018,eras.run2_nanoAOD_102Xv1)
 
 # import of standard configurations
 process.load('Configuration.StandardSequences.Services_cff')
@@ -32,7 +33,8 @@ process.maxEvents = cms.untracked.PSet(
 process.source = cms.Source("PoolSource",
     # fileNames = cms.untracked.vstring('file:/eos/user/s/steggema/HNL/samples/M3mu.root'),
     # fileNames = cms.untracked.vstring('file:/eos/user/a/amascell/007FEA64-717A-6C48-8A96-66D8777F9F96.root'),
-    fileNames = cms.untracked.vstring('/store/mc/RunIISummer20UL18MiniAODv2/TTTo2L2Nu_TuneCP5_13TeV-powheg-pythia8/MINIAODSIM/106X_upgrade2018_realistic_v16_L1v1-v1/00000/04A0B676-D63A-6D41-B47F-F4CF8CBE7DB8.root'),
+    # fileNames = cms.untracked.vstring('/store/mc/RunIISummer20UL18MiniAODv2/TTTo2L2Nu_TuneCP5_13TeV-powheg-pythia8/MINIAODSIM/106X_upgrade2018_realistic_v16_L1v1-v1/00000/04A0B676-D63A-6D41-B47F-F4CF8CBE7DB8.root'),
+    fileNames = cms.untracked.vstring('file:/eos/user/a/amascell/Samples/026955F4-14DD-504B-8740-4DD45AF2E998.root'),
     secondaryFileNames = cms.untracked.vstring()
 )
 
@@ -64,7 +66,8 @@ process.NANOAODSIMoutput = cms.OutputModule("NanoAODOutputModule",
 
 # Other statements
 from Configuration.AlCa.GlobalTag import GlobalTag
-GlobalTagName = '106X_upgrade2018_realistic_v15_L1v1'
+# GlobalTagName = '106X_upgrade2018_realistic_v15_L1v1'
+GlobalTagName = '102X_upgrade2018_realistic_v21'
 process.GlobalTag = GlobalTag(process.GlobalTag, GlobalTagName, '')
 
 # Path and EndPath definitions
