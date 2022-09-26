@@ -4,6 +4,7 @@
 #include <string>
 #include <limits>
 #include <algorithm>
+#include <cmath>
 
 #include "FWCore/Framework/interface/global/EDProducer.h"
 #include "FWCore/Framework/interface/Event.h"
@@ -186,8 +187,16 @@ void DiLeptonBuilder<Lepton>::produce(edm::StreamID, edm::Event& evt, edm::Event
         } 
       } 
 
+      // debugging
+      float lxy = sqrt(pow(lepton_pair.vx(), 2) + pow(lepton_pair.vy(), 2));
+      std::cout << "sv lxy " << lxy << std::endl;
+      std::cout << "sv x, y " << lepton_pair.vx() << "," << lepton_pair.vy() << std::endl;
+      if (lxy >= 300) {
+        std::cout << "Run:lumi:event: " << evt.id().run() << ":" << evt.luminosityBlock() << ":" << evt.id().event() << std::endl;
+      }
       // cut on the SV info
       if( !post_vtx_selection_(lepton_pair) ) continue;
+
       ret_value->push_back(lepton_pair);
     }
   }

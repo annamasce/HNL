@@ -4,8 +4,17 @@
 # Source: /local/reps/CMSSW/CMSSW/Configuration/Applications/python/ConfigBuilder.py,v 
 # with command line options: nano_v7_mc_cff -s NANO --mc --eventcontent NANOAODSIM --datatier NANOAODSIM --no_exec --conditions 102X_upgrade2018_realistic_v21 --era Run2_2018,run2_nanoAOD_102Xv1
 import FWCore.ParameterSet.Config as cms
+from FWCore.ParameterSet.VarParsing import VarParsing
 
 from Configuration.StandardSequences.Eras import eras
+
+options = VarParsing ('analysis')
+options.register ('eventsToProcess',
+				  '',
+				  VarParsing.multiplicity.list,
+				  VarParsing.varType.string,
+				  "Events to process")
+options.parseArguments()
 
 process = cms.Process('NANO',eras.Run2_2018,eras.run2_nanoAOD_102Xv1)
 
@@ -25,14 +34,18 @@ process.load('HNL.NanoProd.DiMuon_cff')
 process.add_(cms.Service('InitRootHandlers', EnableIMT = cms.untracked.bool(False)))
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(-1)
+    input = cms.untracked.int32(options.maxEvents)
 )
 
 # Input source
 process.source = cms.Source("PoolSource",
-    fileNames = cms.untracked.vstring('file:/eos/user/s/steggema/HNL/samples/M3mu.root'),
+    # fileNames = cms.untracked.vstring('file:/eos/user/s/steggema/HNL/samples/M3mu.root'),
+    fileNames = cms.untracked.vstring('/store/mc/RunIIAutumn18MiniAOD/HTo2LongLivedTo2mu2jets_MH-1000_MFF-150_CTau-1000mm_TuneCP5_13TeV_pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v2/120000/32093BB6-7E39-1440-BBAB-8B007C389418.root'),
     secondaryFileNames = cms.untracked.vstring()
 )
+if options.eventsToProcess:
+    process.source.eventsToProcess = \
+           cms.untracked.VEventRange (options.eventsToProcess)
 
 process.options = cms.untracked.PSet(
 
@@ -114,7 +127,7 @@ process.NANOAODSIMoutput.SelectEvents = cms.untracked.PSet(
          
 
 # Customisation from command line
-process.MessageLogger.cerr.FwkReport.reportEvery=cms.untracked.int32(20)
+# process.MessageLogger.cerr.FwkReport.reportEvery=cms.untracked.int32(20)
 
 # Add early deletion of temporary data products to reduce peak memory need
 from Configuration.StandardSequences.earlyDeleteSettings_cff import customiseEarlyDelete
