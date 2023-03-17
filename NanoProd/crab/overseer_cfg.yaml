@@ -17,10 +17,10 @@ filesToTransfer:
   - HNL/NanoProd/config/skim_mu.yaml
 
 # Update destination site and paths before launching a production
-site: T3_CH_CERNBOX
-crabOutput: /store/user/kandroso/hnl-mu-prod
-localCrabOutput: /eos/home-k/kandroso/hnl-mu-prod
-finalOutput: /eos/home-k/kandroso/cms-hnl/Run2/NANOAOD/mu/Run2_2018
+site: T2_CH_CERN
+crabOutput: /store/group/phys_tau/amascell/crab_2018_hnl
+localCrabOutput: /eos/cms/store/group/phys_tau/amascell/crab_2018_hnl
+finalOutput: /eos/user/a/amascell/cms-hnl/Run2_2018
 
 maxMemory: 2500
 numCores: 1
@@ -29,7 +29,7 @@ allowNonValid: False
 dryrun: False
 maxRecoveryCount: 3
 updateInterval: 60 # minutes
-postProcessing:
+localProcessing:
   lawTask: ProdTask
   workflow: htcondor
   bootstrap: bootstrap.sh

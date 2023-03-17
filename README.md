@@ -72,8 +72,8 @@ Production should be run on the server that have the crab stageout area mounted 
 
 1. Test that the code works locally (take one of the miniAOD files as an input). E.g.
    ```sh
-   python3 RunKit/nanoProdWrapper.py customise=HNL/NanoProd/DiMuon_cff.nanoAOD_customizeDisplacedDiMuon maxEvents=2000 sampleType=data storeFailed=True era=Run2_2018 inputFiles=file:/eos/cms/store/group/phys_tau/kandroso/miniAOD_UL18/SingleMuon.root skimCfg=HNL/NanoProd/config/skim_mu.yaml
-   ./RunKit/nanoProdCrabJob.sh
+   cmsEnv python3 RunKit/nanoProdWrapper.py customise=HNL/NanoProd/DiMuon_cff.nanoAOD_customizeDisplacedDiMuon maxEvents=2000 sampleType=data storeFailed=True era=Run2_2018 inputFiles=file:/eos/cms/store/group/phys_tau/kandroso/miniAOD_UL18/SingleMuon.root skimCfg=HNL/NanoProd/config/skim_mu.yaml writePSet=True
+   cmsEnv ./RunKit/crabJob.sh
    ```
    - check that output file `nano.root` is created correctly
 
