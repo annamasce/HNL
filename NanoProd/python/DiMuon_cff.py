@@ -156,6 +156,13 @@ diDSAMuonTable = cms.EDProducer(
     fit_mass = ufloat('fitted_mass', precision=8),
     fit_massErr = ufloat('fitted_massErr', precision=8),
     fit_pt = ufloat('fitted_pt', precision=8),
+    # l1 and l2 momentum at vtx
+    l1_phi = ufloat('l1_phi', precision=8),
+    l2_phi = ufloat('l2_phi', precision=8),
+    l1_eta = ufloat('l1_eta', precision=8),
+    l2_eta = ufloat('l2_eta', precision=8),
+    l1_pt = ufloat('l1_pt', precision=8),
+    l2_pt = ufloat('l2_pt', precision=8),
   )
 )
 

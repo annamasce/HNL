@@ -259,6 +259,13 @@ void DiLeptonBuilder<Lepton1, Lepton2>::produce(edm::StreamID, edm::Event& evt, 
         }
         lepton_pair.setVertex(vtx);
 
+        // Get track state at secondary vertex
+        GlobalPoint vert(lepton_pair.vx(), lepton_pair.vy(), lepton_pair.vz());
+        TrajectoryStateClosestToPoint traj_1 = tt_l1.trajectoryStateClosestToPoint(vert);
+        TrajectoryStateClosestToPoint traj_2 = tt_l2.trajectoryStateClosestToPoint(vert);
+        // std::cout << "phi1 at SV from momentum" << traj_1.momentum().phi() << std::endl;
+        // std::cout << "phi1 at SV from perigee" << traj_1.perigeeParameters().phi() << std::endl;
+
         lepton_pair.addUserFloat("sv_chi2", fitter.chi2());
         lepton_pair.addUserFloat("sv_ndof", fitter.dof()); // float??
         lepton_pair.addUserFloat("sv_prob", fitter.prob());
@@ -271,6 +278,12 @@ void DiLeptonBuilder<Lepton1, Lepton2>::produce(edm::StreamID, edm::Event& evt, 
         lepton_pair.addUserFloat("vtx_ex", fitter.success() ? sqrt(fitter.fitted_vtx_uncertainty().cxx()) : -1.);
         lepton_pair.addUserFloat("vtx_ey", fitter.success() ? sqrt(fitter.fitted_vtx_uncertainty().cyy()) : -1.);
         lepton_pair.addUserFloat("vtx_ez", fitter.success() ? sqrt(fitter.fitted_vtx_uncertainty().czz()) : -1.);
+        lepton_pair.addUserFloat("l1_phi", traj_1.momentum().phi());
+        lepton_pair.addUserFloat("l2_phi", traj_2.momentum().phi());
+        lepton_pair.addUserFloat("l1_eta", traj_1.momentum().eta());
+        lepton_pair.addUserFloat("l2_eta", traj_2.momentum().eta());
+        lepton_pair.addUserFloat("l1_pt", traj_1.momentum().transverse());
+        lepton_pair.addUserFloat("l2_pt", traj_2.momentum().transverse());
       } catch (const std::exception& e) {
         if(verbose_ > 0) {
           std::cerr << e.what() << std::endl;
@@ -280,7 +293,8 @@ void DiLeptonBuilder<Lepton1, Lepton2>::produce(edm::StreamID, edm::Event& evt, 
                     << ", " << getTrack(l2).dxy() << ", " << getTrack(l2).dz()<< std::endl;
         }
         for (const auto& str : { "sv_chi2", "sv_ndof", "sv_prob", "fitted_mass", "fitted_massErr",
-                                 "fitted_pt", "vtx_x", "vtx_y", "vtx_z", "vtx_ex", "vtx_ey", "vtx_ez" }) {
+                                 "fitted_pt", "vtx_x", "vtx_y", "vtx_z", "vtx_ex", "vtx_ey", "vtx_ez", 
+                                 "l1_phi", "l2_phi", "l1_eta", "l2_eta", "l1_pt", "l2_pt" }) {
           lepton_pair.addUserFloat(str, -1.);
         }
       }
