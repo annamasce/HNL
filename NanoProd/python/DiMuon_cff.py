@@ -166,6 +166,12 @@ diDSAMuonTable = cms.EDProducer(
   )
 )
 
+muonDirectionTable = cms.EDProducer(
+    'TrackDirectionTableProducer',
+    name = cms.string('Muon'),
+    src = cms.InputTag('finalMuons')
+  )
+
 this = sys.modules[__name__]
 _all_filters = []
 _all_producers = []
