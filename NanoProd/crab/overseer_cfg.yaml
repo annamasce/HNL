@@ -19,10 +19,10 @@ filesToTransfer:
   - HNL/NanoProd/config/skim_mu.yaml
 
 # Update destination site and paths before launching a production
-site: T2_CH_CERN
-crabOutput: /store/group/phys_tau/amascell/crab_2018_hnl
-localCrabOutput: /eos/cms/store/group/phys_tau/amascell/crab_2018_hnl
-finalOutput: /eos/user/a/amascell/cms-hnl/Run2_2018
+site: T3_CH_CERNBOX
+crabOutput: /store/user/amascell/crab_2016APV_hnl
+localCrabOutput: /eos/user/a/amascell/crab_2016APV_hnl
+finalOutput: /eos/user/a/amascell/cms-hnl/Run2_2016APV
 
 maxMemory: 2500
 numCores: 1
